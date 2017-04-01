@@ -136,11 +136,11 @@ public class Infinite_View_Pager extends RelativeLayout {
         //把该LinearLayout放到视图的最顶层
         this.bringChildToFront(ll);
 
-        linear_layout_add_View(ll);
+        linear_layout_add_shape(ll);
     }
 
-    //添加ViewPager和LinearLayout中的视图
-    protected void linear_layout_add_View(LinearLayout ll) {
+    //添加LinearLayout中的圆点
+    protected void linear_layout_add_shape(LinearLayout ll) {
 
         shape_list = new ArrayList<View>();
         show_list = new ArrayList<View>();
@@ -159,6 +159,12 @@ public class Infinite_View_Pager extends RelativeLayout {
         //将第一个设为选中状态
         shape_list.get(0).setSelected(true);
 
+        checkList();
+
+    }
+
+    //检查集合的长度是否符合无限轮播的要求
+    protected void checkList(){
         //如果传入集合长度小于3  ViewPager无限轮播会报异常  需要处理
         //如果传入集合长度小于4  ViewPager无限轮播时 向左滑动会有异常 也需处理
         //将原有的集合长度翻倍  直到集合长度大于3
@@ -166,32 +172,28 @@ public class Infinite_View_Pager extends RelativeLayout {
             img_url_list.addAll(img_url_list);
         }
 
+        add_show_view();
+    }
+
+    //添加显示的ImageView
+    protected void add_show_view(){
+
         //添加显示图片的View
         for (int i = 0; i < img_url_list.size(); i++) {
             ImageView iv = new ImageView(context);
             ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             iv.setLayoutParams(p);
             show_list.add(iv);
-            net_request_img(iv, img_url_list.get(i));
+            net_request_img(iv, img_url_list.get(i), i);
         }
 
         vp_setListen();
-        show_Image();
-
     }
 
     //加载图片使用ImageLoader
-    protected void net_request_img(ImageView view, String url) {
+    protected void net_request_img(ImageView view, String url, int index) {
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(url, view);
-    }
-
-    //改变小圆点的状态
-    protected void shape_change_color(int position) {
-        int pos = position % num;
-        for (int i = 0; i < shape_list.size(); i++) {
-            shape_list.get(i).setSelected(i == pos ? true : false);
-        }
     }
 
     //给ViewPager添加监听
@@ -214,6 +216,8 @@ public class Infinite_View_Pager extends RelativeLayout {
             }
         });
 
+        show_Image();
+
     }
 
     //显示图片
@@ -223,6 +227,14 @@ public class Infinite_View_Pager extends RelativeLayout {
         vp.setCurrentItem(show_list.size() * 100000, false);
     }
 
+    //改变小圆点的状态
+    protected void shape_change_color(int position) {
+        int pos = position % num;
+        for (int i = 0; i < shape_list.size(); i++) {
+            shape_list.get(i).setSelected(i == pos ? true : false);
+        }
+    }
+    
     //自动轮播
     protected void auto_play() {
         int index = vp.getCurrentItem();
