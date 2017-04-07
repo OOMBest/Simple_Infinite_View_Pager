@@ -234,11 +234,18 @@ public class Infinite_View_Pager extends RelativeLayout {
             shape_list.get(i).setSelected(i == pos ? true : false);
         }
     }
-    
-    //自动轮播
-    protected void auto_play() {
+
+    //自动向右轮播
+    protected void auto_play_right() {
         int index = vp.getCurrentItem();
         index++;
+        vp.setCurrentItem(index);
+    }
+
+    //自动向左轮播
+    protected void auto_play_left(){
+        int index = vp.getCurrentItem();
+        index--;
         vp.setCurrentItem(index);
     }
 
@@ -272,9 +279,16 @@ public class Infinite_View_Pager extends RelativeLayout {
 
     }
 
-    //开始轮播
-    public void start_auto_play() {
-        handler.postDelayed(able, auto_delay_time);
+    //开始自动向右轮播
+    public void start_auto_play_right() {
+        stop_auto_play();
+        handler.postDelayed(right, auto_delay_time);
+    }
+
+    //开始自动向左轮播
+    public void start_auto_play_left(){
+        stop_auto_play();
+        handler.postDelayed(left, auto_delay_time);
     }
 
     //停止轮播
@@ -282,12 +296,21 @@ public class Infinite_View_Pager extends RelativeLayout {
         handler.removeCallbacksAndMessages(null);
     }
 
-    //发送的runnable
-    private Runnable able = new Runnable() {
+    //发送向右播放的runnable
+    private Runnable right = new Runnable() {
         @Override
         public void run() {
-            auto_play();
-            handler.postDelayed(able, auto_delay_time);
+            auto_play_right();
+            handler.postDelayed(right, auto_delay_time);
+        }
+    };
+
+    //发送向左播放的runnable
+    private Runnable left = new Runnable() {
+        @Override
+        public void run() {
+            auto_play_left();
+            handler.postDelayed(left, auto_delay_time);
         }
     };
 

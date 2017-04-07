@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,11 +7,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".DemoActivity">
 
     <tools.hub.com.simple_infinite_view_pager.Infinite_View_Pager
         android:id="@+id/simple_infinite_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></tools.hub.com.simple_infinite_view_pager.Infinite_View_Pager>
+        android:layout_height="0dp"
+        android:layout_weight="7"></tools.hub.com.simple_infinite_view_pager.Infinite_View_Pager>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/b_right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="向右轮播"/>
+    <Button
+        android:id="@+id/b_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="向左轮播"/>
+    <Button
+        android:id="@+id/b_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="停止轮播"/>
+</LinearLayout>

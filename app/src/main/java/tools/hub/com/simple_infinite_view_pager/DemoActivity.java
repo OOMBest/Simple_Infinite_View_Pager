@@ -3,11 +3,15 @@ package tools.hub.com.simple_infinite_view_pager;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class DemoActivity extends Activity {
+public class DemoActivity extends Activity implements View.OnClickListener {
+
+    private Infinite_View_Pager ivp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,34 @@ public class DemoActivity extends Activity {
         list.add(url3);
         list.add(url4);
 
-        Infinite_View_Pager ivp = (Infinite_View_Pager) findViewById(R.id.simple_infinite_view_pager);
+        ivp = (Infinite_View_Pager) findViewById(R.id.simple_infinite_view_pager);
 
         ivp.set_img_url(list, R.drawable.one);
 
-        ivp.start_auto_play();
+        Button b_right = (Button) findViewById(R.id.b_right);
+        Button b_left = (Button) findViewById(R.id.b_left);
+        Button b_stop = (Button) findViewById(R.id.b_stop);
 
+        b_right.setOnClickListener(this);
+        b_left.setOnClickListener(this);
+        b_stop.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.b_right:
+                ivp.start_auto_play_right();
+                break;
+            case R.id.b_left:
+                ivp.start_auto_play_left();
+                break;
+            case R.id.b_stop:
+                ivp.stop_auto_play();
+                break;
+            default:
+                break;
+        }
     }
 }
